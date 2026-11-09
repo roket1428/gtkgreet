@@ -98,6 +98,7 @@ void window_setup_question(struct Window *ctx, enum QuestionType type, char* que
         case QuestionTypeVisible:
         case QuestionTypeSecret: {
             GtkWidget *label = gtk_label_new(question);
+            gtk_widget_set_name(label, "prompt-label");
             gtk_widget_set_halign(label, GTK_ALIGN_END);
             gtk_container_add(GTK_CONTAINER(question_box), label);
 
@@ -121,6 +122,7 @@ void window_setup_question(struct Window *ctx, enum QuestionType type, char* que
         case QuestionTypeInfo:
         case QuestionTypeError: {
             GtkWidget *label = gtk_label_new(question);
+            gtk_widget_set_name(label, "prompt-label");
             gtk_widget_set_halign(label, GTK_ALIGN_END);
             gtk_container_add(GTK_CONTAINER(question_box), label);
             break;
@@ -140,6 +142,9 @@ void window_setup_question(struct Window *ctx, enum QuestionType type, char* que
         GtkWidget *selector_entry = gtk_bin_get_child((GtkBin*)ctx->command_selector);
         gtk_entry_set_placeholder_text((GtkEntry*)selector_entry, _("Command to run on login"));
         g_signal_connect(selector_entry, "activate", G_CALLBACK(action_answer_question), ctx);
+
+        // hide the command selector
+        gtk_widget_set_no_show_all(ctx->command_selector, TRUE);
 
         gtk_container_add(GTK_CONTAINER(ctx->input_box), ctx->command_selector);
     }
